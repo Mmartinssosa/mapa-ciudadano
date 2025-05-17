@@ -54,11 +54,13 @@ iconos = {
 }
 
 for _, row in df.iterrows():
+    icon_name = iconos[row["tipo"]] if row["tipo"] in iconos else "info-sign"
+    
     folium.Marker(
         [row["lat"], row["lon"]],
         tooltip=row["tipo"],
         popup=f'{row["tipo"]} - {row["comentario"]} ({row["fecha"]})',
-        icon=folium.Icon(color="blue", icon=iconos.get(row["tipo"], "info-sign"), prefix="fa")
+        icon=folium.Icon(color="blue", icon=icon_name, prefix="fa")
     ).add_to(mapa)
 
 st_data = st_folium(mapa, width=700, height=500)
